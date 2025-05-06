@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4e3cf;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        #slideshow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            display: none; /* Initially hidden */
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .slide.active {
+            opacity: 1;
+        }
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 450px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            max-width: 90%;
+            box-sizing: border-box;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        h1 {
+            color: #e64a43;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            transform: translateY(-20px);
+            animation: slideInDown 0.5s ease-out forwards;
+        }
+        @keyframes slideInDown {
+            from { transform: translateY(-20px); }
+            to { transform: translateY(0); }
+        }
+        #birthday-message {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 20px;
+            padding: 0 10px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out 0.5s forwards;
+            display: none; /* Initially hidden */
+        }
+        #countdown {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4a148c;
+            margin-bottom: 20px;
+            transform: scale(0);
+            animation: zoomIn 0.5s ease-out 1s forwards;
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        #wish-button {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            background-color: #ffb74d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 10px;
+            animation: pulse 2s infinite alternate;
+        }
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+        #wish-button:hover {
+            background-color: #f57c00;
+            transform: scale(1.05);
+        }
+        #name-input {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px auto;
+            display: block;
+            width: calc(100% - 40px);
+            max-width: 300px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative; /* To contain the slideshow */
+        }
+        #name-input:focus {
+            outline: none;
+            border-color: #ffb74d;
+            box-shadow: 0 0 5px rgba(255, 183, 77, 0.5);
+        }
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ffeb3b;
+            animation: explode 1s ease-out forwards, flicker 0.3s infinite alternate;
+        }
+        @keyframes explode {
+            from {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+            }
+        }
+        @keyframes flicker {
+            from { opacity: 1; }
+            to { opacity: 0.7; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            #birthday-message {
+                font-size: 1em;
+            }
+            #countdown {
+                font-size: 1.5em;
+            }
+            #wish-button {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.75em;
+            }
+            #birthday-message {
+                font-size: 0.9em;
+            }
+            #countdown {
+                font-size: 1.25em;
+            }
+            .container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="slideshow-container">
+        <div class="slide active" style="background-image: url('WhatsApp Image 2025-05-04 at 21.41.49_174ddb1c.jpg');"></div>
+        <div class="slide" style="background-image: url('WhatsApp Image 2025-05-04 at 21.41.50_2a63a5b9.jpg');"></div>
+        <div class="slide" style="background-image: url('WhatsApp Image 2025-05-04 at 21.41.50_2f073f8c.jpg');"></div>
+        <div class="slide" style="background-image: url('WhatsApp Image 2025-05-04 at 21.41.50_30569ad6.jpg');"></div>
+        <div class="slide" style="background-image: url('WhatsApp Image 2025-05-04 at 21.41.51_dca19dba.jpg');"></div>
+        <div class="slide" style="background-image: url('WhatsApp Image 2025-05-04 at 21.42.13_5d9dbef1.jpg');"></div>
+    </div>
+    <div class="container">
+        <h1>Happy Birthday!</h1>
+        <p id="birthday-message">Enter your name to see your birthday wish!</p>
+        <input type="text" id="name-input" placeholder="Enter your name">
+        <div id="countdown"></div>
+        <button id="wish-button">Show Wish</button>
+        <div class="fireworks"></div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            // Set the target birthday date
+            const birthdayDate = new Date("2024-07-28T00:00:00");
+            const wishButton = $("#wish-button");
+            const countdownDisplay = $("#countdown");
+            const birthdayMessage = $("#birthday-message");
+            const nameInput = $("#name-input");
+            const fireworksContainer = $(".fireworks");
+            const slides = $(".slide");
+            let slideIndex = 0;
+            const slideshowContainer = $("#slideshow-container");
+
+            function updateCountdown() {
+                const now = new Date();
+                const timeDiff = birthdayDate.getTime() - now.getTime();
+
+                if (timeDiff > 0) {
+                    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+                    countdownDisplay.html(`
+                        <div>${days} Days</div>
+                        <div>${hours} Hours</div>
+                        <div>${minutes} Minutes</div>
+                        <div>${seconds} Seconds</div>
+                    `);
+                } else {
+                    countdownDisplay.text("It's your Birthday!");
+                    birthdayMessage.text("Happy Birthday! We hope you have a fantastic day!");
+                    wishButton.text("Show Wish Again");
+                    launchFireworks();
+                }
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 10000);
+
+            function showSlides() {
+                slides.removeClass("active");
+                slides.eq(slideIndex).addClass("active");
+                slideIndex = (slideIndex + 1) % slides.length;
+            }
+
+            function startSlideshow() {
+                slideshowContainer.show();
+                showSlides();
+                setInterval(showSlides, 3000);
+            }
+
+
+            wishButton.on("click", function() {
+                const name = nameInput.val().trim();
+                if (name === "") {
+                    birthdayMessage.text("Please enter your name to see your wish!");
+                    return;
+                }
+
+                birthdayMessage.html(`Happy Birthday, <span style="color:#ff6f61; font-size: 1.4em;">${name}</span>! We hope you have a fantastic day filled with joy and happiness!`);
+                countdownDisplay.hide();
+                nameInput.hide();
+                wishButton.text("Show Wish Again");
+                launchFireworks();
+                startSlideshow();
+            });
+
+            function launchFireworks() {
+                const numberOfFireworks = 10;
+                for (let i = 0; i < numberOfFireworks; i++) {
+                    setTimeout(() => {
+                        createFirework();
+                    }, i * 200);
+                }
+            }
+
+            function createFirework() {
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                firework.style.left = `${x}px`;
+                firework.style.top = `${y}px`;
+                const color = ['#ffeb3b', '#f44336', '#2196f3', '#4caf50', '#ff9800'][Math.floor(Math.random() * 5)];
+                firework.style.backgroundColor = color;
+                fireworksContainer.append(firework);
+
+                setTimeout(() => {
+                    firework.remove();
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
